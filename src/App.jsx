@@ -440,7 +440,7 @@ function App() {
     <div className="app-container">
       {/* Debug info */}
       <div className="debug-info">
-        Data points: {data.length} | Bus stops: {plotData.length} | Map Initialized: {mapInitialized ? 'Yes' : 'No'}
+        Data points: {data.length} | Stations: {plotData.length} | Map Initialized: {mapInitialized ? 'Yes' : 'No'}
       </div>
 
       {/* Theme toggle buttons in top right */}
