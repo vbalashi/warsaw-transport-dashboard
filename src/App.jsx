@@ -107,14 +107,16 @@ function App() {
 
   // Initialize map when component mounts
   useEffect(() => {
-    const token = import.meta.env.VITE_MAPBOX_TOKEN;
-    console.log('Setting up Mapbox with token:', token ? 'Token available' : 'Token missing');
+    // Try different ways to access the token
+    const token = import.meta.env.VITE_MAPBOX_TOKEN || 
+                  process.env.VITE_MAPBOX_TOKEN || 
+                  window.VITE_MAPBOX_TOKEN;
+                  
+    console.log('Token available:', !!token); // For debugging, don't log the actual token
     
     if (token) {
       try {
-        // Force token to be applied directly to window for Mapbox fallback access
         window.MAPBOX_ACCESS_TOKEN = token;
-        
         setMapLayout(prev => ({
           ...prev,
           mapbox: {
@@ -124,14 +126,12 @@ function App() {
         }));
         setMapInitialized(true);
         setMapError(null);
-        console.log('Map initialized state set to true');
       } catch (error) {
         console.error('Error initializing map:', error);
         setMapError(error.message || 'Failed to initialize map');
       }
     } else {
-      setMapError('Mapbox token not found in environment variables');
-      console.error('Mapbox token not found in environment variables');
+      setMapError('Mapbox token not found. Please check environment variables.');
     }
   }, [retryCount]);
 
